@@ -1,0 +1,160 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details Page</title>
+    <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+</head>
+<body>
+    <!--------head menu-->
+    <div class="row">
+        <!----head menu-->
+        <div class="col head-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Advertise</a></li>
+            </ul>
+
+        </div>
+        <!----head menu-->
+        <div class="col head-search">
+            <form action="" method="get">
+                <input type="search"><input type="submit" value="Search">
+            </form>
+        </div>
+    </div>
+    <!--------head menu-->
+
+    <!---banner -->
+ <div class="row">
+        <div class="col logo">logo</div>
+        <div class="col banner">banner</div>
+    </div>
+     <!---banner -->
+
+<!--main menu-->
+<div class="row">
+    <div class="col menubar">
+
+        <ul>
+            <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
+            <li><a href="#">Latest</a></li>
+            <li><a href="#">Sport</a></li>
+            <li><a href="#">Politic</a></li>
+            <li><a href="#">Event</a></li>
+            <li><a href="{% url 'blog:Profile' %}">Acount</a></li>
+            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+        </ul>
+    </div>
+</div>
+<!--main menu-->
+
+
+<div class="details-wrapper">
+  <p> <img src=""></p>
+  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid praesentium esse adipisci deleniti quidem fuga debitis magni dolores impedit, amet asperiores fugit laudantium nesciunt! Voluptatem laudantium earum quaerat odit amet, architecto consectetur facere quibusdam veritatis deserunt quae in facilis commodi maxime est possimus molestias soluta incidunt ducimus. Animi fugit tenetur porro hic. Autem officiis natus, fuga quaerat quod ad ducimus dolore nulla repudiandae cupiditate cum. Quos odit quas eius omnis repudiandae, eveniet deleniti nam ea non in veritatis doloremque voluptas vitae sequi eaque nemo quod minima incidunt, minus modi, libero tempora? Dicta repellat natus unde, impedit iure repudiandae accusamus suscipit?</p>
+  
+  <div class="details-comment">
+    <p>Comments ()</p> 
+    <div class="comment-holder">
+        <p><img src="me.png" alt="" srcset=""> UserName | Date</p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo in ipsa aspernatur, eaque voluptatibus quisquam maiores eligendi. Reprehenderit sint consequatur quisquam corrupti quibusdam nihil atque fuga ex aperiam, at a!
+    </div>
+    <br/>
+
+    <form action="" method="">
+        <label for="comment">Comment:</label>
+        <br/>
+        <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        <br/>
+        <br/>
+        <input type="submit" value="Post Comment">
+    </form>
+ </div>
+
+  <P>Related Article</P>
+  <div class="related_post">
+    <div>
+        <img src="me.png">
+        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+        <br/>
+        <span>name Date</span>
+    </div>
+
+    <div>
+        <img src="me.png">
+        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+        <br/>
+        <span>name Date</span>
+    </div>
+
+    <div>
+        <img src="me.png">
+        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+        <br/>
+        <span>name Date</span>
+    </div>
+  </div>
+   
+
+  
+
+
+</div>
+
+
+
+
+
+<!--footer-->
+<div class="footer"> 
+<div class="row">
+    <div class="col f-logo">
+        <p style="font-style: oblique;font-weight:bold; font-size:25px;">Don't Miss Out</p>
+        <p>Sign up for the latest More News</p>
+        <form action="" method="post">
+            <input type="email" name="" id="" placeholder="E-mail Address">
+            <input type="submit" value="Subscribe">
+        </form>
+        <div class="myLinks">
+            <i class="fa-brands fa-facebook-square"></i>
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-github"></i>
+            <i class="fa-brands fa-linkedin"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </div>
+    </div>
+    <div class="col f-Company">
+        <p style="font-style: oblique;font-weight:bold">Company</p>
+        <p>DevelopWithOwolabi.com</p>
+    </div>
+    <div class="col f-Contact">
+        <p style="font-style: oblique;font-weight:bold">Contact Me</p>
+        <p>Owolabidevelop@gmail.com</p>
+        <p>+2348120385367</p>
+    </div>
+
+    <div class="col f-service">
+        <p style="font-style: oblique;font-weight:bold">Our Service</p>
+        <p>Web Developement</p>
+        <p>Advertisement</p>
+        <p>Blog</p>
+    </div>
+</div>
+<div class="f-content">
+    <p style="text-align: center; padding:2px">Develop by Owolabi Akintan CopyRight Reserved 2022</p>
+</div>
+
+</div>
+<!--footer-->
+
+</body>
+</html>

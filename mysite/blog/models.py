@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser,BaseUserManager
-
+from django.conf import settings
+from django.core.validators import FileExtensionValidator
+from django.utils import timezone
+from datetime import date
 class BlogManager(BaseUserManager):
     def create_user(self, email, date_of_birth, password=None):
         """
@@ -62,3 +65,31 @@ class User(AbstractUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+    
+class Profile(models.Model):
+    sex = (
+        ("Male","Male"),
+        ("Female","Female")
+    )
+    User = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    Profile_pic = models.FileField("Profile Pic",upload_to='uploads/',default='blog/images/default.png',validators=[FileExtensionValidator(allowed_extensions=['jpg','png'],message='Please Upload The Fellowing Image Format jpg ord png')])
+    bio = models.TextField(verbose_name='bio',max_length=255,blank=True,null=True)
+    Gender = models.CharField(max_length=10,choices=sex,blank=True,null=True)
+
+class Article_Category(models.Model):
+    Title = models.CharField(max_length=255,unique=True)
+   
+class Article(models.Model):
+    headlines = models.CharField(max_length=255)
+    body = models.TextField(max_length=255)
+    Article_pic = models.FileField("Article Pic",upload_to='Articles/',validators=[FileExtensionValidator(allowed_extensions=['jpg','png'],message='Please Upload The Fellowing Image Format jpg ord png')])
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True)
+    pub_date = models.DateField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    
+
+
+class Comment(models.Model):
+    comments = models.TextField(max_length=255)
+    Article = models.ForeignKey(Article,related_name='article',on_delete=models.CASCADE)
+    comment_date = models.DateField(auto_now_add=True)

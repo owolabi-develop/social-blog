@@ -1,13 +1,14 @@
 *{
     box-sizing: border-box;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: tomato;
+    color:rgb(121, 119, 119);
 }
 body {
     margin:0px;
     padding:0px;
     background:rgb(243, 241, 241);
 }
+
 .wrapper{
     width:100%
 }
@@ -25,30 +26,68 @@ body {
  border-bottom: 1px solid gainsboro;
  height: 35px;
  width: 50%;
- padding: 8px;
  padding-left: 100px;
 }
-.head-link{
-border-bottom: 1px solid gainsboro;
-border-right: 1px solid gainsboro ;
-background:linear-gradient(rgb(212, 211, 211),10%,white);
- height: 35px;
- width: 20%;
- padding: 8px;
- padding-left: 100px;
- margin: 0px;
-
+.head-menu ul{
+    padding:0px;
+    margin: 0px;
+    
+}
+.head-menu ul li{
+    display: inline-block;
+    list-style-type: none;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
+    padding: 7px 20px;
+    margin-left:10px;
+}
+.head-menu ul li a{
+    text-decoration: none;
+    text-transform: capitalize;
+    
+}
+.head-menu ul li a:hover{
+    text-decoration: none;
+    text-transform: capitalize;
+    background:linear-gradient(rgb(139, 138, 138),10%,white);
+    padding: 7px 20px;
+    margin-left:10px;
 }
 .head-search{
 background:linear-gradient(rgb(212, 211, 211),10%,white);
 border-bottom: 1px solid gainsboro;
-border-right: 1px solid gainsboro ;
+border-right: 1px solid rgb(207, 205, 205) ;
 height: 35px;
-width: 30%;
-padding: 8px;
-padding-left: 100px;
+width: 50%;
+padding: 1px;
+padding-left: 50px;
 }
 
+.head-search input[type=search]{
+    outline: none;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
+    height: 30px;
+    width:400px;
+    text-indent: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+   
+}
+.head-search input[type=submit]{
+    outline: none;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+    
+}
+.head-search input[type=submit]:hover{
+    color: black;
+    background:linear-gradient(rgb(139, 151, 161),rgb(157, 165, 168));
+    border: none;
+    cursor: pointer;
+    
+}
 .logo{
    
     padding: 30px 150px;
@@ -64,12 +103,36 @@ padding-left: 100px;
     border-bottom: 1px solid gainsboro;
 }
 .menubar{
-    padding: 15px 100px;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
     width:100%;
-    height: 50px;
+    height: 40px;
+    padding-left: 40px;
     border-bottom: 1px solid gainsboro;
 }
-
+.menubar ul{
+    padding:0px;
+    margin: 0px;
+    
+}
+.menubar ul li{
+    display: inline-block;
+    list-style-type: none;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
+    padding: 7px 20px;
+    margin-left:10px;
+}
+.menubar ul li a{
+    text-decoration: none;
+    text-transform: capitalize;
+    
+}
+.menubar ul li a:hover{
+    text-decoration: none;
+    text-transform: capitalize;
+    background:linear-gradient(rgb(139, 138, 138),10%,white);
+    padding: 7px 20px;
+    margin-left:10px;
+}
 #Article{
     margin: auto;
     width:85%;
@@ -115,8 +178,8 @@ padding-left: 100px;
     width:60%;
     margin: 10px;
 }
-.headline-sub-right p{
-    padding: 10px;
+.headline-sub-right span{
+    padding: 20px;
 }
 
 .headline-sub-right img{
@@ -140,8 +203,8 @@ padding-left: 100px;
     height: 120px;
 }
 
-.headline-sub-left .sub-left p{
-    padding: 10px;
+.headline-sub-left .sub-left span{
+    padding:20px;
 }
 .latest{
     width: 95%;
@@ -183,7 +246,7 @@ background:gainsboro;
     margin: 10px;
     width: 30%;
     padding: 10px 50px;
-    height: 200px;
+   
    
 
 }
@@ -191,7 +254,7 @@ background:gainsboro;
     margin: 10px;
     width: 20%;
     padding: 10px;
-    height: 200px;
+   
   
 
 }
@@ -199,7 +262,7 @@ background:gainsboro;
     margin: 10px;
     width: 20%;
     padding: 10px;
-    height: 200px;
+   
    
 
 }
@@ -207,7 +270,7 @@ background:gainsboro;
     margin: 10px;
     width: 20%;
     padding: 10px;
-    height: 200px;
+    
   
 
 }
@@ -215,4 +278,332 @@ background:gainsboro;
     width: 100%;
     border-top: 1px solid rgb(192, 190, 190);
     border-bottom: 1px solid rgb(68, 65, 65);
+}
+
+.fa-brands{
+    padding: 10px;
+    font-size: 30px;
+    width: 40px;
+    text-align: center;
+    text-decoration: none;
+    color:black;
+    
+}
+.fa-brands:hover{
+  opacity: 0.7;
+  color: rgb(6, 143, 143); 
+}
+.f-logo input[type=email]{
+    color: black;
+    outline: none;
+    background:linear-gradient(rgb(217, 220, 223),rgb(174, 183, 187));
+    margin: 5px;
+    height: 40px;
+    width:300px;
+    text-indent: 10px;
+    border-radius: 5px;
+}
+.f-logo input[type=submit]{
+    color: black;
+    outline: none;
+    padding: 10px 20px;
+    margin: 5px;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+.f-logo input[type=submit]:hover{
+    color: black;
+    outline: none;
+    padding: 10px 20px;
+    margin: 5px;
+    background:linear-gradient(rgb(139, 151, 161),rgb(157, 165, 168));
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+hr.ArtH{
+    border:1px solid rgba(102, 102, 105, 0.493);
+    width:40%;
+    opacity: 0.3;
+  
+}
+
+hr.ArtHlatest{
+    border:1px solid rgba(102, 102, 105, 0.493);
+    width:90%;
+    opacity: 0.3;
+  
+}
+
+hr.recent-hr{
+    border:1px solid rgba(102, 102, 105, 0.493);
+    width:90%;
+    opacity: 0.3;
+   
+}
+.pagination-wrapper{
+    width:40%;
+    margin:auto;
+    margin-bottom: 20px;
+}
+.pagination-wrapper .pagination {
+    display: inline-block;
+  }
+  
+.pagination-wrapper  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+  }
+  
+.pagination-wrapper .pagination a.active {
+    background-color: #141614;
+    color: white;
+    border: 1px solid #2e3d2e;
+  }
+  
+.pagination-wrapper .pagination a:hover:not(.active) {background-color: rgb(22, 20, 20);}
+
+.login-form{
+    margin: auto;
+    margin-top: 5%;
+    width:30%;
+    padding: 20px;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
+    border-radius: 10px;
+    height: 400px;
+   
+}
+.login-form input[type=email]{
+    width: 350px;
+    height: 40px;
+    border-radius: 5px;
+    text-indent: 15px;
+}
+.login-form input[type=password]{
+    width: 350px;
+    height: 40px;
+    text-indent: 15px;
+    border-radius: 5px;
+}
+.login-form input[type=submit]{
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
+    cursor: pointer;
+    border: none;
+}
+
+.login-form input[type=submit]:hover{
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
+    cursor: pointer;
+    border: none;
+}
+
+.login-form .fa-solid{
+    padding: 8px 150px;
+    font-size: 60px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    color:rgb(158, 156, 156);
+    
+}
+.login-form a{
+    text-decoration: none;
+}
+
+
+
+.SignUp-form2{
+    margin: auto;
+    margin-top: 5%;
+    width:30%;
+    padding: 20px;
+    background:linear-gradient(rgb(212, 211, 211),10%,white);
+    border-radius: 10px;
+   
+}
+.SignUp-form2 input[type=text]{
+    width: 350px;
+    height: 40px;
+    border-radius: 5px;
+    text-indent: 15px;
+}
+
+.SignUp-form2 input[type=email]{
+    width: 350px;
+    height: 40px;
+    border-radius: 5px;
+    text-indent: 15px;
+}
+.SignUp-form2 input[type=password]{
+    width: 350px;
+    height: 40px;
+    border-radius: 5px;
+    text-indent: 15px;
+}
+.SignUp-form2 input[type=submit]{
+    color:royalblue;
+    width: 350px;
+    text-align: center;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
+}
+.signUp_success{
+    margin: auto;
+    margin-top: 5%;
+    width:30%;
+    padding: 20px;
+    background:linear-gradient(rgb(231, 223, 223),10%,white);
+    border-radius: 10px;
+}
+
+.signUp_success .fa-regular{
+    padding: 5px;
+    font-size: 60px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(11, 161, 161, 0.815);
+    
+}
+.signUp_success .btn{
+    margin-top: 5px;
+    margin-left:140px;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(11, 161, 161, 0.815);
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
+    
+}
+.profile-menu{
+    width:20%;
+    padding: 10px;
+}
+.profile-menu ul{
+    margin: 0px;
+    padding: 0px;
+}
+.profile-menu ul li{
+    display: block;
+    list-style-type: none;
+
+    padding: 10px;
+    margin: 20px;
+}
+.profile-menu ul li a{
+    text-decoration: none;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+.profile-Forms{
+    padding: 10px;
+    width:80%;
+    height:200px;
+    background-color: red;
+}
+.details-wrapper{
+    width:50%;
+    margin:auto;
+    padding: 20px;
+   
+}
+.details-wrapper img{
+    border-radius:10px;
+    width:100%;
+    height:300px;
+}
+
+.details-comment{
+    width:100%;
+    padding: 10px;
+
+}
+.related_post{
+    display: flex;
+    flex-wrap:nowrap;
+    width:100%;
+    padding: 10px;
+    height: auto;
+    margin-bottom: 10px;
+
+}
+.related_post div{
+   margin: 5px;
+   width:200px;
+   
+   padding:2px;
+   border-radius:5px;
+   border:1px solid ghostwhite;
+}
+.related_post img{
+    width:190px;
+    height:160px;
+    border-radius: 10px;
+    object-fit:contain;
+
+}
+.details-comment textarea{
+    width:95%;
+    height:200px;
+    outline: none;
+    border: none;
+   background-color: rgb(206, 205, 205);
+    text-indent: 10px;
+    padding:10px;
+    border-radius: 10px;
+    resize: none;
+
+
+}
+.details-comment input[type=submit]{
+    color:white;
+    width: 100px;
+    text-align: center;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
+}
+.comment-holder{
+    width:90%;
+    padding:10px;
+    
+    background-color: #ddd;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+.comment-holder img{
+
+    margin:5px;
+    height:50px;
+    width:50px;
+    border-radius: 100%;
+    border: 1px solid red;
 }

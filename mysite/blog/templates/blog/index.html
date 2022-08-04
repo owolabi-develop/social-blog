@@ -7,14 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owolabi Blog</title>
+    <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
 </head>
 <body>
     <!--------head menu-->
     <div class="row">
-        <div class="col head-menu">home</div>
-        <div class="col head-link">link</div>
-        <div class="col head-search">link</div>
+        <!----head menu-->
+        <div class="col head-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Advertise</a></li>
+            </ul>
+
+        </div>
+        <!----head menu-->
+        <div class="col head-search">
+            <form action="" method="get">
+                <input type="search"><input type="submit" value="Search">
+            </form>
+        </div>
     </div>
     <!--------head menu-->
 
@@ -27,7 +41,18 @@
 
 <!--main menu-->
 <div class="row">
-    <div class="col menubar">logo</div>
+    <div class="col menubar">
+
+        <ul>
+            <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
+            <li><a href="#">Latest</a></li>
+            <li><a href="#">Sport</a></li>
+            <li><a href="#">Politic</a></li>
+            <li><a href="#">Event</a></li>
+            <li><a href="{% url 'blog:Profile' %}">Acount</a></li>
+            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+        </ul>
+    </div>
 </div>
 <!--main menu-->
 
@@ -46,7 +71,9 @@
         <!--headline-sub-right-->
         <div class="col headline-sub-right">
                 <img src="lgo.png">
-                <p>hello</p>
+                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+                <br/>
+                <span>name Date</span>
         </div>
         <!--headline-sub-right-->
 
@@ -54,12 +81,16 @@
         <div class="col headline-sub-left">
             <div class="sub-left">
                 <img src="me.png">
-                <p>left</p>
+                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+                <br/>
+                <span>name Date</span>
             </div>
 
             <div class="sub-left">
                 <img src="me.png">
-                <p>left</p>
+                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+                <br/>
+                <span>name Date</span>
             </div>
         </div>
         <!--headline-sub-left-->
@@ -68,11 +99,11 @@
     <!--headline in row-->
     <!--latest-->
     <p style="padding-left: 30px;">Latest Article</p>
-    <hr/>
+    <hr class="ArtHlatest">
     <div class="col latest">
         <span><img src="w3css.gif" width="100" height="140" id="img">
             <br>
-        <span style="font-weight: bold;">beauty name</span>
+        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
         <br>
         <br>
         <span><img src="w3css.gif" width="100" height="140" id="Auth-profile"> Author:Owolabi</span>
@@ -84,7 +115,7 @@
             This is some text. This is some text. This is some text.
             <br>
             <br>
-            <hr/>
+            <hr class="ArtH">
             <span>Comments</span> | <span>Date</span>
             </span>
             
@@ -103,14 +134,16 @@
         <p>Recent Post</p>
         <div class="R-post">
             <img src="hrllo.png">
-            <p>hello world for the imahe tha</p>
-            <p>todat 2022</p>
+            <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+            <br/>
+            <span style="padding: 20px;">Name Date</span>
         </div>
-        <hr/>
+        <hr class="recent-hr">
         <div class="R-post">
             <img src="hrllo.png">
-            <p>hello world for the imahe tha</p>
-            <p>todat 2022</p>
+            <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+            <br/>
+            <span style="padding: 20px;">Name Date</span>
         </div>
     </div>
   <!---post wrapper-->
@@ -119,10 +152,11 @@
             <p>Advert</p>
             <div class="R-post">
                 <img src="hrllo.png">
-                <p>hello world for the imahe tha</p>
-                <p>todat 2022</p>
+                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+            <br/>
+            <span style="padding: 20px;">Name Date</span>
             </div>
-            <hr/>
+            <hr class="recent-hr">
         </div>
          <!---dvante wrapper-->
     </div>
@@ -134,6 +168,18 @@
 
 </div>
 <!--Article-->
+<div class="pagination-wrapper">
+    <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#" class="active">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+
 </div>
 <!--Articlewrappet-->
 
@@ -144,6 +190,18 @@
     <div class="col f-logo">
         <p style="font-style: oblique;font-weight:bold; font-size:25px;">Don't Miss Out</p>
         <p>Sign up for the latest More News</p>
+        <form action="" method="post">
+            <input type="email" name="" id="" placeholder="E-mail Address">
+            <input type="submit" value="Subscribe">
+        </form>
+        <div class="myLinks">
+            <i class="fa-brands fa-facebook-square"></i>
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-github"></i>
+            <i class="fa-brands fa-linkedin"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </div>
     </div>
     <div class="col f-Company">
         <p style="font-style: oblique;font-weight:bold">Company</p>
@@ -163,7 +221,7 @@
     </div>
 </div>
 <div class="f-content">
-    <p>hello</p>
+    <p style="text-align: center; padding:2px">Develop by Owolabi Akintan CopyRight Reserved 2022</p>
 </div>
 
 </div>

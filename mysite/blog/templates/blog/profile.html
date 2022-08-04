@@ -1,0 +1,125 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+</head>
+<body>
+    <!---head menu-->
+    <div class="row">
+        <!---head menu-->
+        <div class="col head-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Advertise</a></li>
+            </ul>
+
+        </div>
+        <!---head menu-->
+        <div class="col head-search">
+            <form action="" method="get">
+                <input type="search"><input type="submit" value="Search">
+            </form>
+        </div>
+    </div>
+    <!--head menu-->
+
+    <!---banner -->
+ <div class="row">
+        <div class="col logo">logo</div>
+        <div class="col banner">banner</div>
+    </div>
+     <!---banner -->
+
+<!--main menu-->
+<div class="row">
+    <div class="col menubar">
+
+        <ul>
+            <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
+            <li><a href="#">Latest</a></li>
+            <li><a href="#">Sport</a></li>
+            <li><a href="#">Politic</a></li>
+            <li><a href="#">Event</a></li>
+            <li><a href="#">Acount</a></li>
+            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+        </ul>
+    </div>
+</div>
+<!--main menu-->
+
+<!---profile-->
+<div class="profil-wrapper">
+    {% block profile-wrapper %}
+<div class="row">
+    <div class="col profile-menu">
+        <ul>
+            <li><a href="">Public Profile</a></li>
+            <li><a href="">Personal Information</a></li>
+            <li><a href="">Article Management</a></li>
+            <li><a href="">Account Management</a></li>
+            <li><a href="">Logout</a></li>
+        </ul>
+    </div>
+    <div class="col profile-Forms">gg</div>
+</div>
+{% endblock profile-wrapper %}
+</div>
+<!---profile-->
+
+
+
+
+<!--footer-->
+<div class="footer"> 
+<div class="row">
+    <div class="col f-logo">
+        <p style="font-style: oblique;font-weight:bold; font-size:25px;">Don't Miss Out</p>
+        <p>Sign up for the latest More News</p>
+        <form action="" method="post">
+            <input type="email" name="" id="" placeholder="E-mail Address">
+            <input type="submit" value="Subscribe">
+        </form>
+        <div class="myLinks">
+            <i class="fa-brands fa-facebook-square"></i>
+            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-github"></i>
+            <i class="fa-brands fa-linkedin"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </div>
+    </div>
+    <div class="col f-Company">
+        <p style="font-style: oblique;font-weight:bold">Company</p>
+        <p>DevelopWithOwolabi.com</p>
+    </div>
+    <div class="col f-Contact">
+        <p style="font-style: oblique;font-weight:bold">Contact Me</p>
+        <p>Owolabidevelop@gmail.com</p>
+        <p>+2348120385367</p>
+    </div>
+
+    <div class="col f-service">
+        <p style="font-style: oblique;font-weight:bold">Our Service</p>
+        <p>Web Developement</p>
+        <p>Advertisement</p>
+        <p>Blog</p>
+    </div>
+</div>
+<div class="f-content">
+    <p style="text-align: center; padding:2px">Develop by Owolabi Akintan CopyRight Reserved 2022</p>
+</div>
+
+</div>
+<!--footer-->
+
+</body>
+</html>
