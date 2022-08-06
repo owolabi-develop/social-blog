@@ -431,7 +431,7 @@ hr.recent-hr{
 .SignUp-form2{
     margin: auto;
     margin-top: 5%;
-    width:30%;
+    width:32%;
     padding: 20px;
     background:linear-gradient(rgb(212, 211, 211),10%,white);
     border-radius: 10px;
@@ -503,6 +503,7 @@ hr.recent-hr{
 .profile-menu{
     width:20%;
     padding: 10px;
+    background:linear-gradient(rgb(9, 83, 105),10%,rgb(9, 48, 51));
 }
 .profile-menu ul{
     margin: 0px;
@@ -606,4 +607,26 @@ hr.recent-hr{
     width:50px;
     border-radius: 100%;
     border: 1px solid red;
+}
+.profile-menu img{
+    
+    width:100px;
+    height:100px;
+    border-radius:100%;
+    border: 1px solid red;
+    margin:20px;
+}
+.four_wrapper{
+    padding: 10px ;
+    width:80%;
+    margin:auto;
+    text-align: center;
+   
+
+}
+.four_wrapper img{
+    height: 400px;
+    width:50%;
+
+
 }
