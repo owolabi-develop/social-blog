@@ -49,7 +49,7 @@
             <li><a href="#">Sport</a></li>
             <li><a href="#">Politic</a></li>
             <li><a href="#">Event</a></li>
-            <li><a href="{% url 'blog:Profile' %}">Acount</a></li>
+            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
             <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
         </ul>
     </div>

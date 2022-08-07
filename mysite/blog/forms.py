@@ -1,6 +1,9 @@
+from dataclasses import field
 from django import forms
 from . models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import PasswordResetForm,SetPasswordForm
 
 class UserCreationForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
@@ -32,3 +35,21 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class UserPasswordResetForm(PasswordResetForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+    class Meta:
+        model = User
+        field = ('email',)
+
+class UserSetPassword(SetPasswordForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+   

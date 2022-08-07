@@ -431,7 +431,7 @@ hr.recent-hr{
 .SignUp-form2{
     margin: auto;
     margin-top: 5%;
-    width:32%;
+    width:30%;
     padding: 20px;
     background:linear-gradient(rgb(212, 211, 211),10%,white);
     border-radius: 10px;
@@ -629,4 +629,15 @@ hr.recent-hr{
     width:50%;
 
 
+}
+.messages{
+    padding: 10px;
+    text-align: center;
+    font-style: italic;
+    color: red;
+}
+.errorlist{
+    list-style-type: none;
+    font-style: italic;
+    color:red;
 }
