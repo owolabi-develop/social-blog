@@ -13,20 +13,9 @@
 <body>
     <!--------head menu-->
     <div class="row">
-        <!----head menu-->
-        <div class="col head-menu">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Advertise</a></li>
-            </ul>
-
-        </div>
-        <!----head menu-->
         <div class="col head-search">
             <form action="" method="get">
-                <input type="search"><input type="submit" value="Search">
+                <input type="search" placeholder="Search">
             </form>
         </div>
     </div>
@@ -49,8 +38,13 @@
             <li><a href="#">Sport</a></li>
             <li><a href="#">Politic</a></li>
             <li><a href="#">Event</a></li>
+            {% if user.is_authenticated %}
             <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
+            {% else %}
             <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+            {% endif %}
+            
+            
         </ul>
     </div>
 </div>

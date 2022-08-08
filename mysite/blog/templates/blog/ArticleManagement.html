@@ -9,8 +9,19 @@
     <title>Profile Page</title>
     <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+    <script src="{% static 'blog/main.js' %}"></script>
 </head>
 <body>
+    <div class="article-form-container">
+        <h3>Add Article</h3>
+        <form action="" method="post" enctype="multipart/form-data" id="Article-form">
+            {% csrf_token %}
+            <input type="submit" value="Add Article">
+
+
+        </form>
+    </div>
+    <div class="overlay"></div>
     <!---head menu-->
     <div class="row">
         
@@ -55,30 +66,55 @@
         <img src="{{user.profile.Profile_pic.url}}">
         <p style="margin-left:70px;">{{user.username|title}}</p>
 <hr class="ArtHlatest">
-        <ul>
-            <li><i class="fa-solid fa-user">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Profile' user.email %}">Public Profile</a></li>
-            <li><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:aaccount-Management' user.email %}">Personal Information</a></li>
-            <li><i class="fa-solid fa-newspaper">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Article-Management' user.email %}">Article Management</a></li>
-            <li><i class="fa-solid fa-bars"></i>&nbsp;&nbsp;&nbsp;<a href="">Account Management</a></li>
-            <li><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:logout' %}">Logout</a></li>
-        </ul>
+<ul>
+    <li><i class="fa-solid fa-user">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Profile' user.email %}">Public Profile</a></li>
+    <li><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:aaccount-Management' user.email %}">Personal Information</a></li>
+    <li><i class="fa-solid fa-newspaper">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Article-Management' user.email %}">Article Management</a></li>
+    <li><i class="fa-solid fa-bars"></i>&nbsp;&nbsp;&nbsp;<a href="">Account Management</a></li>
+    <li><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:logout' %}">Logout</a></li>
+</ul>
     </div>
     <div class="col profile-Forms">
-        <div class="form-wraper">
-            <h2> Public profile</h2>
-            <p>People visiting your profile will see the following info</p>
-       <form action="{% url 'blog:Profile' user.email %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-        
-        {{field}}
-        <br/>
-        <br/>
-        {% endfor %}
-        
-        <input type="Submit" value="Update Profile">
-       </form>
+       <div class="Article-container">
+        <h3>Article List</h3>
+        <!--adh-->
+        <div class="article-adh">
+        <button class="add-Article" onclick="displayoverlay()">Add Article <i class="fa-solid fa-plus"></i></button> <form action="" method="get">
+            <input type="search" placeholder="Search Article">
+        </form>
     </div>
+    <!--adh-->
+
+    <!--Article table-->
+    <div class="Article-table">
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Media</th>
+                <th>Headline</th>
+                <th>Description</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td><img src="" alt="Article"></td>
+                <td>Headline</td>
+                <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur quo voluptas totam fuga commodi sunt veritatis saepe error voluptatibus illum harum inventore reiciendis vel, odit accusantium nostrum dolore vero culpa.</td>
+                <td>Owolabi</td>
+                <td>Today</td>
+                <td><i class="fa-solid fa-pencil"></i></td>
+                <td><i class="fa-solid fa-trash-can"></i></td>
+            </tr>
+        </table>
+    </div>
+    <!--Article table-->
+<!--Article pagination-->
+    <div class="Article-pagination"></div>
+    <!--Article pagination-->
+       </div>
     </div>
 </div>
 {% endblock profile-wrapper %}

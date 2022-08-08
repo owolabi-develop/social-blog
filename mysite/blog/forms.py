@@ -1,9 +1,9 @@
-from dataclasses import field
+from dataclasses import field, fields
 from django import forms
-from . models import User
+from . models import User,Profile
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import PasswordResetForm,SetPasswordForm
+from django.contrib.auth.forms import PasswordResetForm,SetPasswordForm,PasswordChangeForm
 
 class UserCreationForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
@@ -52,4 +52,35 @@ class UserSetPassword(SetPasswordForm):
         for field_name in self.fields:
             field = self.fields.get(field_name)
             self.fields[field_name].widget.attrs.update({'placeholder':field.label})
-   
+
+class ProfileForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+    class Meta:
+        model = Profile
+        fields = ("Profile_pic","bio","Gender")
+
+class UserEditForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+    class Meta:
+        model = User
+        fields = ['first_name','last_name','email','username']
+
+class UserChangePassword(PasswordChangeForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+    class Meta:
+        model = User
+        fields = "__all__"
+
+

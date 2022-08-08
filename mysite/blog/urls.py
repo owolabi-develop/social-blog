@@ -20,5 +20,7 @@ urlpatterns = [
     path("Logout/",views.User_logOut,name='logout'),
     path("PasswordRestDown/",views.password_down,name='password-down'),
     path('passwordchangcomplete/',views.password_reset_complete,name='password_reset_complete'),
+    path('Setting/AccountManagement/<email>/',views.accountManagement,name='aaccount-Management'),
+    path('Setting/ArticleManagement/<email>/',views.ArticleManagement,name='Article-Management')
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -76,20 +76,23 @@ class Profile(models.Model):
     bio = models.TextField(verbose_name='bio',max_length=255,blank=True,null=True)
     Gender = models.CharField(max_length=10,choices=sex,blank=True,null=True)
 
-#class Article_Category(models.Model):
-    #Title = models.CharField(max_length=255,unique=True)
+    def __str__(self) -> str:
+        return self.User.email
+
+class Article_Category(models.Model):
+    Title = models.CharField(max_length=255,unique=True)
    
-#class Article(models.Model):
-    #headlines = models.CharField(max_length=255)
-    #body = models.TextField(max_length=255)
-    #Article_pic = models.FileField("Article Pic",upload_to='Articles/',validators=[FileExtensionValidator(allowed_extensions=['jpg','png'],message='Please Upload The Fellowing Image Format jpg ord png')])
-    #author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True)
-    #pub_date = models.DateField(auto_now_add=True)
-    #last_modified = models.DateTimeField(auto_now=True)
+class Article(models.Model):
+    headlines = models.CharField(max_length=255)
+    body = models.TextField(max_length=255)
+    Article_pic = models.FileField("Article Pic",upload_to='Articles/',validators=[FileExtensionValidator(allowed_extensions=['jpg','png'],message='Please Upload The Fellowing Image Format jpg ord png')])
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True)
+    pub_date = models.DateField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
     
 
 
-#class Comment(models.Model):
-    #comments = models.TextField(max_length=255)
-    #Article = models.ForeignKey(Article,related_name='article',on_delete=models.CASCADE)
-    #comment_date = models.DateField(auto_now_add=True)
+class Comment(models.Model):
+    comments = models.TextField(max_length=255)
+    Article = models.ForeignKey(Article,related_name='article',on_delete=models.CASCADE)
+    comment_date = models.DateField(auto_now_add=True)

@@ -1,4 +1,5 @@
 
+from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
@@ -9,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate,login,logout
-from . forms import UserCreationForm, UserPasswordResetForm,UserSetPassword
+from . forms import UserCreationForm, UserPasswordResetForm,UserSetPassword,ProfileForm,UserEditForm,UserChangePassword
 from . models import Profile,User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator as default_token_generator
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -20,6 +21,7 @@ from django.core.mail import EmailMessage
 from . tokens import account_activation_token
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import PasswordResetConfirmView,PasswordResetCompleteView
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -90,24 +92,31 @@ def email_confirm(request,uidb64,token):
         user.is_active=True
         user.save()
         login(request,user)
-        return HttpResponseRedirect(reverse("blog:Profile"))
+        return HttpResponseRedirect(reverse("blog:Profile",args=(user.get_username(),)))
     else:
         return HttpResponse("Activation link invalid")
 
 def Signup_success(request):
     return render(request,'blog/Signup_success.html')
 
+@login_required(login_url="/login/")
 def UserProfile(request,email):
     user = get_object_or_404(get_user_model(),email=email)
+    if request.method =="POST":
+        form = ProfileForm(request.POST,request.FILES,instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+    else:
+        form = ProfileForm()
 
-    return render(request,"blog/profile.html",{'user':user})
+    return render(request,"blog/profile.html",{'user':user,'form':form})
 
 def details(request,blog_id=1):
     return render(request,"blog/details.html",{})
 
 def forgotPassword(request):
     if request.method =="POST":
-        form =UserPasswordResetForm(data=request.POST)
+        form = UserPasswordResetForm(data=request.POST)
         if form.is_valid():
             to_email = form.cleaned_data['email']
             form.save(get_current_site(request),email_template_name='blog/pwd_email_reset.html')
@@ -123,3 +132,25 @@ def User_logOut(request):
 
 def password_down(request):
     return render(request,'blog/password-down.html')
+@login_required(login_url="/login/")
+def accountManagement(request,email):
+    user = get_object_or_404(get_user_model(),email=email)
+    if request.method == "POST":
+        PasswordChangeform = UserChangePassword(user=request.user, data=request.POST)
+        userEditform = UserEditForm(request.POST,instance=request.user)
+        if userEditform.is_valid():
+            userEditform.save()
+            messages.success(request,'User info Update Successful')
+        if PasswordChangeform.is_valid():
+            PasswordChangeform.save()
+            update_session_auth_hash(request, PasswordChangeform.user)
+            messages.success(request,'Password Update Successful')
+    else:
+        PasswordChangeform = UserChangePassword(user=request.user)
+        userEditform = UserEditForm()
+
+    return render(request,"blog/accountmanage.html",{'form1':PasswordChangeform,'form2': userEditform,'user':user})
+@login_required(login_url="/login/")
+def ArticleManagement(request,email):
+    user = get_object_or_404(get_user_model(),email=email)
+    return render(request,'blog/ArticleManagement.html',{'user':user})

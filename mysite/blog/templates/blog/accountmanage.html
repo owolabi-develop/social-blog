@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details Page</title>
+    <title>Profile Page</title>
     <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
 </head>
 <body>
-    <!--------head menu-->
+    <!---head menu-->
     <div class="row">
-        
+        <!---head menu-->
         <div class="col head-search">
             <form action="" method="get">
                 <input type="search" placeholder="Search">
             </form>
         </div>
     </div>
-    <!--------head menu-->
+    <!--head menu-->
 
     <!---banner -->
  <div class="row">
@@ -39,66 +39,74 @@
             <li><a href="#">Sport</a></li>
             <li><a href="#">Politic</a></li>
             <li><a href="#">Event</a></li>
-            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
-            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+            <li><a href="#">Acount</a></li>
+           
         </ul>
     </div>
 </div>
+{% block profile-wrapper %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 <!--main menu-->
 
-
-<div class="details-wrapper">
-  <p> <img src=""></p>
-  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid praesentium esse adipisci deleniti quidem fuga debitis magni dolores impedit, amet asperiores fugit laudantium nesciunt! Voluptatem laudantium earum quaerat odit amet, architecto consectetur facere quibusdam veritatis deserunt quae in facilis commodi maxime est possimus molestias soluta incidunt ducimus. Animi fugit tenetur porro hic. Autem officiis natus, fuga quaerat quod ad ducimus dolore nulla repudiandae cupiditate cum. Quos odit quas eius omnis repudiandae, eveniet deleniti nam ea non in veritatis doloremque voluptas vitae sequi eaque nemo quod minima incidunt, minus modi, libero tempora? Dicta repellat natus unde, impedit iure repudiandae accusamus suscipit?</p>
+<!---profile-->
+<div class="profil-wrapper">
   
-  <div class="details-comment">
-    <p>Comments ()</p> 
-    <div class="comment-holder">
-        <p><img src="me.png" alt="" srcset=""> UserName | Date</p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo in ipsa aspernatur, eaque voluptatibus quisquam maiores eligendi. Reprehenderit sint consequatur quisquam corrupti quibusdam nihil atque fuga ex aperiam, at a!
+    
+<div class="row">
+    <div class="col profile-menu">
+        
+        <img src="{{user.profile.Profile_pic.url}}">
+        <p style="margin-left:70px;">{{user.username|title}}</p>
+<hr class="ArtHlatest">
+<ul>
+    <li><i class="fa-solid fa-user">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Profile' user.email %}">Public Profile</a></li>
+    <li><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:aaccount-Management' user.email %}">Personal Information</a></li>
+    <li><i class="fa-solid fa-newspaper">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Article-Management' user.email %}">Article Management</a></li>
+    <li><i class="fa-solid fa-bars"></i>&nbsp;&nbsp;&nbsp;<a href="">Account Management</a></li>
+    <li><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:logout' %}">Logout</a></li>
+</ul>
     </div>
-    <br/>
+    <div class="col profile-Forms">
+        <h2>Update Password</h2>
+        <div class="form-wraper">
+       <form action="{% url 'blog:aaccount-Management' user.email %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form1 %}
+        
+        {{field}}
+        <br/>
+        <br/>
+        {% endfor %}
+        
+        <input type="Submit" value="ChangePassword">
+       </form>
+       <h2>Update Info</h2>
+       <pr>Edit your basic personal info to improve recommendations. <br>This information is private and won’t show up in your public profile.</p>
 
-    <form action="" method="">
-        <label for="comment">Comment:</label>
+       <form action="{% url 'blog:aaccount-Management' user.email %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form2 %}
+        {{field.label}}:
         <br/>
-        <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        {{field}}
         <br/>
         <br/>
-        <input type="submit" value="Post Comment">
-    </form>
- </div>
-
-  <P>Related Article</P>
-  <div class="related_post">
-    <div>
-        <img src="me.png">
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-        <br/>
-        <span>name Date</span>
+        {% endfor %}
+        
+        <input type="Submit" value="Update Info">
+       </form>
     </div>
-
-    <div>
-        <img src="me.png">
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-        <br/>
-        <span>name Date</span>
     </div>
-
-    <div>
-        <img src="me.png">
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-        <br/>
-        <span>name Date</span>
-    </div>
-  </div>
-   
-
-  
-
-
 </div>
-
+{% endblock profile-wrapper %}
+</div>
+<!---profile-->
 
 
 
