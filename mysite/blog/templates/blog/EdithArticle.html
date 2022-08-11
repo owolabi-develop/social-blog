@@ -84,48 +84,20 @@
     </div>
     <div class="col profile-Forms">
        <div class="Article-container">
-        <h3>Article List</h3>
-        <!--adh-->
-        <div class="article-adh">
-        <button class="add-Article" onclick="displayoverlay()">Add Article <i class="fa-solid fa-plus"></i></button> <form action="" method="get">
-            <input type="search" placeholder="Search Article">
-        </form>
-    </div>
-    <!--adh-->
-
-    <!--Article table-->
-    <div class="Article-table">
-        <table>
-            <tr>
-                <th>#</th>
-                <th>Media</th>
-                <th>Headline</th>
-                <th>Description</th>
-                <th>Author</th>
-                <th>Date</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            {% if article %}
-            {% for article in article  %}
-            <tr>
-                <td><input type="checkbox"></td>
-                <td><img src="{{article.Article_pic.url}}" alt="Article" style="width:60px;height:60px; border-radiu:10px;"></td>
-                <td>{{article.headlines}}</td>
-                <td>{{article.body}}</td>
-                <td>{{article.author.username}}</td>
-                <td>{{article.pub_date|naturalday|title}}</td>
-                <td><a href="{% url 'blog:Article-Edit' article.id %}"><i class="fa-solid fa-pencil"></i></a></td>
-                <td><a href="{% url 'blog:delete-article' article.id %}"><i class="fa-solid fa-trash-can"></i></a></td>
-            </tr>
-            {% endfor %}
-            {% else %}
-            <p>You have'nt publish any article</p>
-            {% endif %}
-        </table>
-    </div>
-    <!--Article table-->
-
+      <form action="{% url 'blog:Article-Edit' article.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% csrf_token %}
+        {{form.none_field_errors}}
+        {% for field in form  %}
+        
+        {{field}}
+        {{field.errors}}
+        <br/>
+        <br/>
+        {% endfor %}
+        <input type="submit" value="Update Article">
+      </form>
+   
        </div>
     </div>
 </div>

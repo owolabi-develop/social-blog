@@ -1,6 +1,6 @@
 from dataclasses import field, fields
 from django import forms
-from . models import User,Profile
+from . models import User,Profile,Article,Comment
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import PasswordResetForm,SetPasswordForm,PasswordChangeForm
@@ -82,5 +82,28 @@ class UserChangePassword(PasswordChangeForm):
     class Meta:
         model = User
         fields = "__all__"
+
+class ArticleForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+    class Meta:
+        model = Article
+        fields = ("headlines","body","Category","Article_pic")
+
+class CommentForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            self.fields[field_name].widget.attrs.update({'placeholder':field.label})
+    
+    class Meta:
+        model = Comment
+        fields = ("comments",)
+
+
 
 

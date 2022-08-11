@@ -63,30 +63,34 @@
         <div class="row">
 
         <!--headline-sub-right-->
+        {% if recent  %}
         <div class="col headline-sub-right">
-                <img src="lgo.png">
-                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-                <br/>
-                <span>name Date</span>
+            
+                <img src="{{recent.Article_pic.url}}">
+            <span style="padding: 20px; font-weight:bold;font-size:18px;"><a href="{% url 'blog:details' recent.headlines  %}">{{recent.headlines|title}}</a></span>
+                <p style="padding-left:18px;">Posted: &nbsp;&nbsp;{{recent.pub_date|naturaltime|title}}</p>
         </div>
+        {% else %}
+        <p>No article publish yet</p>
+        {% endif %}
+    
         <!--headline-sub-right-->
 
         <!--headline-sub-left-->
+        {% if recent2 %}
+        {% for recent2 in  recent2  %}
         <div class="col headline-sub-left">
             <div class="sub-left">
-                <img src="me.png">
-                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+                <img src="{{recent2.Article_pic.url}}">
+                <span style="padding: 20px; font-weight:bold;font-size:18px;"><a href="{% url 'blog:details' recent2.headlines  %}">{{recent2.headlines|title}}</a></span>
                 <br/>
-                <span>name Date</span>
-            </div>
-
-            <div class="sub-left">
-                <img src="me.png">
-                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-                <br/>
-                <span>name Date</span>
+                <span style="padding: 20px;">{{recent2.username}} Posted: &nbsp;&nbsp;{{recent2.pub_date|naturaltime|title}}</span>
             </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <p>No article publish yet</p>
+        {% endif %}
         <!--headline-sub-left-->
        
     </div>
@@ -94,27 +98,30 @@
     <!--latest-->
     <p style="padding-left: 30px;">Latest Article</p>
     <hr class="ArtHlatest">
+    {% if Article %}
+    {% for earliest in Article %}
     <div class="col latest">
-        <span><img src="w3css.gif" width="100" height="140" id="img">
+        <span><img src="{{earliest.Article_pic.url}}" width="100" height="140" id="img">
             <br>
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+           <span style="padding: 20px; font-weight:bold;font-size:18px;"> <a href="{% url 'blog:details' earliest.headlines  %}">{{earliest.headlines|title}}</a></span>
         <br>
         <br>
-        <span><img src="w3css.gif" width="100" height="140" id="Auth-profile"> Author:Owolabi</span>
+        <span><img src="{{earliest.author.profile.Profile_pic.url}}" width="100" height="140" id="Auth-profile"></span>
         <br>
         <br>
-            This is some text. This is some text. This is some text.
-            This is some text. This is some text. This is some text.
-            This is some text. This is some text. This is some text.
-            This is some text. This is some text. This is some text.
+           {{earliest.body}}
             <br>
             <br>
             <hr class="ArtH">
-            <span>Comments</span> | <span>Date</span>
+            <span>Comments {{earliest.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>{{earliest.pub_date|naturaltime|title}}</span>
             </span>
             
        
     </div>
+    {% endfor %}
+    {% else %}
+    <h3>No Article Yet </h3>
+    {% endif %}
     <!--latest-->
     
     
@@ -126,33 +133,24 @@
         <!---post wrapper-->
         <div class="post-wrpper">
         <p>Recent Post</p>
+       {% if recentArt3 %}
+        {% for recentArt3 in recentArt3 %}
         <div class="R-post">
-            <img src="hrllo.png">
-            <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+            <img src="{{recentArt3.Article_pic.url}}">
+            <span style="padding: 20px; font-weight:bold;font-size:18px;"><a href="{% url 'blog:details' recentArt3.headlines  %}">{{recentArt3.headlines|title}}</a></span>
             <br/>
-            <span style="padding: 20px;">Name Date</span>
+            <p>Posted: &nbsp;&nbsp;{{recentArt3.pub_date|naturaltime|title}}</p>
         </div>
         <hr class="recent-hr">
-        <div class="R-post">
-            <img src="hrllo.png">
-            <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-            <br/>
-            <span style="padding: 20px;">Name Date</span>
-        </div>
+        
+        {% endfor %}
+        {% else %}
+        <p>No article publish yet</p>
+        {% endif %}
+       
     </div>
   <!---post wrapper-->
-    <!---dvante wrapper-->
-        <div class="advert">
-            <p>Advert</p>
-            <div class="R-post">
-                <img src="hrllo.png">
-                <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-            <br/>
-            <span style="padding: 20px;">Name Date</span>
-            </div>
-            <hr class="recent-hr">
-        </div>
-         <!---dvante wrapper-->
+    
     </div>
     <!--recentpost-->
    

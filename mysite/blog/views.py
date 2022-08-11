@@ -6,22 +6,23 @@ from django.conf import settings
 from django.contrib import messages
 from django.db.models.signals import post_save
 from django.template.loader import render_to_string
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,get_list_or_404
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate,login,logout
-from . forms import UserCreationForm, UserPasswordResetForm,UserSetPassword,ProfileForm,UserEditForm,UserChangePassword
+from . forms import UserCreationForm, UserPasswordResetForm,UserSetPassword,ProfileForm,UserEditForm,UserChangePassword,ArticleForm,CommentForm
 from . models import Profile,User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator as default_token_generator
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_str,force_bytes
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage,send_mail,EmailMultiAlternatives
 from . tokens import account_activation_token
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import PasswordResetConfirmView,PasswordResetCompleteView
 from django.contrib.auth.decorators import login_required
+from .models import Article,Comment
 
 
 
@@ -33,7 +34,15 @@ post_save.connect(post_save_Profile, sender=settings.AUTH_USER_MODEL)
         
 
 def index(request):
-    return render(request,'blog/index.html',{})
+    try:
+        recentArt = Article.objects.earliest('pub_date')
+        allArt  = Article.objects.all()[:8]
+        recentArt2 = Article.objects.order_by('headlines')[:2]
+        recentArt3 = Article.objects.order_by('-last_modified')[:6]
+    except Article.DoesNotExist:
+        return {}
+    
+    return render(request,'blog/index.html',{'recent':recentArt,'Article':allArt,'recent2':recentArt2, 'recentArt3': recentArt3})
 
 def UserLogin(request):
     if request.method == "POST":
@@ -67,8 +76,10 @@ def UserSignUp(request):
                 'protocol':'http',
             })
             to_email = form.cleaned_data['email']
-            msg = EmailMessage(subject_email,message,to=[to_email])
-            msg.content_subtype ="html"
+            from_email='owolabidevelop84@gmail.com'
+            print(to_email)
+            msg = EmailMultiAlternatives(subject_email,'Confirmation Form Owolabiblog',from_email,[to_email])
+            msg.attach_alternative(message,'text/html')
             msg.send()
             return HttpResponseRedirect(reverse("blog:Signup_success"))
     else:
@@ -111,8 +122,44 @@ def UserProfile(request,email):
 
     return render(request,"blog/profile.html",{'user':user,'form':form})
 
-def details(request,blog_id=1):
-    return render(request,"blog/details.html",{})
+def details(request,headlines):
+    ComArticle = get_object_or_404(Article,headlines=headlines)
+    #user = get_object_or_404(get_user_model(),email=request.user)
+    related = Article.objects.filter(headlines__istartswith=ComArticle)[:3]
+    author = Article.objects.filter(author__username=request.user)
+    if request.method =="POST":
+        comment = CommentForm(request.POST)
+        if comment.is_valid():
+            instance = comment.save(commit=False)
+            instance.Article = ComArticle
+            instance.save()
+    else:
+        comment = CommentForm()
+    return render(request,"blog/details.html",{"blog":ComArticle,'related':related,'form':comment,'author':author})
+
+@login_required(login_url="/login/")
+def ArticleEdit(request,article_id):
+     article = get_object_or_404(Article,pk=article_id)
+     if request.method =="POST":
+        form = ArticleForm(request.POST,request.FILES,instance=article)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            messages.success(request,'{} Article was published successfully'.format(form.cleaned_data['headlines']))
+     else:
+        form = ArticleForm(instance=article)
+
+     return render(request,'blog/EdithArticle.html',{"form":form,"article":article})
+     
+@login_required(login_url="/login/")
+def ArticleDelete(request,article_id):
+      Article.objects.get(pk=article_id).delete()
+      user = get_object_or_404(get_user_model(),email=request.user)
+      messages.success(request,'')
+      return HttpResponseRedirect(reverse("blog:Article-Management",args=(user.get_username(),)))
+
+
 
 def forgotPassword(request):
     if request.method =="POST":
@@ -132,6 +179,8 @@ def User_logOut(request):
 
 def password_down(request):
     return render(request,'blog/password-down.html')
+
+
 @login_required(login_url="/login/")
 def accountManagement(request,email):
     user = get_object_or_404(get_user_model(),email=email)
@@ -148,9 +197,25 @@ def accountManagement(request,email):
     else:
         PasswordChangeform = UserChangePassword(user=request.user)
         userEditform = UserEditForm()
-
     return render(request,"blog/accountmanage.html",{'form1':PasswordChangeform,'form2': userEditform,'user':user})
+
+
 @login_required(login_url="/login/")
 def ArticleManagement(request,email):
     user = get_object_or_404(get_user_model(),email=email)
-    return render(request,'blog/ArticleManagement.html',{'user':user})
+    Article_data = Article.objects.filter(author=request.user)
+    if request.method =="POST":
+        form = ArticleForm(request.POST,request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            messages.success(request,'{} Article was published successfully'.format(form.cleaned_data['headlines']))
+    else:
+        form = ArticleForm()
+    return render(request,'blog/ArticleManagement.html',{'user':user,'form':form,'article': Article_data})
+
+
+
+
+    

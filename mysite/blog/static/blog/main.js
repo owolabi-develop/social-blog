@@ -17,7 +17,13 @@ function displayoverlay(){
         if (event.target == overlay) {
           overlay.style.display = "none";
           article_form_container.style.display="none"
+        }else if (article_form_container.style.display=="none"){
+            article_form_container.style.display="none"
+            overlay.style.display = "none";
+
         }
+        
+
       }
     
 

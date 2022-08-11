@@ -16,11 +16,13 @@ urlpatterns = [
         views.password_reset.as_view(), name='password-reset'),
     path("Signup_success/",views.Signup_success,name='Signup_success'),
     path("Setting/Profile/<email>/",views.UserProfile,name="Profile"),
-    path("Details/<int:blog_id>/",views.details,name='details'),
+    path("Details/<headlines>/",views.details,name='details'),
     path("Logout/",views.User_logOut,name='logout'),
     path("PasswordRestDown/",views.password_down,name='password-down'),
     path('passwordchangcomplete/',views.password_reset_complete,name='password_reset_complete'),
     path('Setting/AccountManagement/<email>/',views.accountManagement,name='aaccount-Management'),
-    path('Setting/ArticleManagement/<email>/',views.ArticleManagement,name='Article-Management')
+    path('Setting/ArticleManagement/<email>/',views.ArticleManagement,name='Article-Management'),
+    path('Setting/ArticleManagement/ArticleEdit/<int:article_id>/',views.ArticleEdit,name='Article-Edit'),
+   
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

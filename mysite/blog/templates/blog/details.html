@@ -39,8 +39,9 @@
             <li><a href="#">Sport</a></li>
             <li><a href="#">Politic</a></li>
             <li><a href="#">Event</a></li>
-            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
+            {% if not user.is_authenticated %}
             <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+            {% endif %}
         </ul>
     </div>
 </div>
@@ -48,49 +49,79 @@
 
 
 <div class="details-wrapper">
-  <p> <img src=""></p>
-  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid praesentium esse adipisci deleniti quidem fuga debitis magni dolores impedit, amet asperiores fugit laudantium nesciunt! Voluptatem laudantium earum quaerat odit amet, architecto consectetur facere quibusdam veritatis deserunt quae in facilis commodi maxime est possimus molestias soluta incidunt ducimus. Animi fugit tenetur porro hic. Autem officiis natus, fuga quaerat quod ad ducimus dolore nulla repudiandae cupiditate cum. Quos odit quas eius omnis repudiandae, eveniet deleniti nam ea non in veritatis doloremque voluptas vitae sequi eaque nemo quod minima incidunt, minus modi, libero tempora? Dicta repellat natus unde, impedit iure repudiandae accusamus suscipit?</p>
+  <p> <img src="{{blog.Article_pic.url}}"></p>
+  <p>{{blog.body}}</p>
   
   <div class="details-comment">
-    <p>Comments ()</p> 
+    {% if blog.comment_set.all and user.is_authenticated%}
+    <form action="{% url 'blog:details' blog.headlines %}" method="post">
+        {% csrf_token %}
+        <br/>
+        <p class="p1"><img src="{{user.profile.Profile_pic.url}}">
+            {{form.none_field_errors}}
+       {% for field in form %}
+       {{field}}
+       {{firld.errors}}
+       {% endfor %}&nbsp;<input type="submit" value="Post Comment"></p>
+    </form>
+    {% elif not user.is_authenticated %}
+    <form action="{% url 'blog:details' blog.headlines %}" method="post">
+        {% csrf_token %}
+        <br/>
+        <p class="p1"><img src="{% static 'images/default.png' %}">
+            {{form.none_field_errors}}
+       {% for field in form %}
+       {{field}}
+       {{firld.errors}}
+       {% endfor %}&nbsp;<input type="submit" value="Post Comment"></p>
+    </form>
+    {% else %}
+    <p>No comment Yet</p>
+    {% endif %}
+    <br/>
+    <br/>
+    <br/>
+  
+    <p>Comments ({{blog.comment_set.all.count}})</p> 
+    {% if blog.comment_set.all and user.is_authenticated%}
+    {% for comment in blog.comment_set.all %}
     <div class="comment-holder">
-        <p><img src="me.png" alt="" srcset=""> UserName | Date</p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo in ipsa aspernatur, eaque voluptatibus quisquam maiores eligendi. Reprehenderit sint consequatur quisquam corrupti quibusdam nihil atque fuga ex aperiam, at a!
+        <p class="cp"><img src="{{user.profile.Profile_pic.url}}" alt="" srcset="">{{comment.comments}}</p>
+        <p style="margin-left: 10px;">{{comment.comment_date|naturaltime}}</p>
     </div>
+    {% endfor %}
+    {% elif not user.is_authenticated %}
+    {% for comment in blog.comment_set.all %}
+    <div class="comment-holder">
+        <p class="cp"><img src="{% static 'images/default.png' %}" alt="" srcset="">{{comment.comments}}</p>
+        <p style="margin-left: 10px;">{{comment.comment_date|naturaltime}}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No comment Yet</p>
+    {% endif %}
+   
     <br/>
 
-    <form action="" method="">
-        <label for="comment">Comment:</label>
-        <br/>
-        <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
-        <br/>
-        <br/>
-        <input type="submit" value="Post Comment">
-    </form>
+    
  </div>
 
   <P>Related Article</P>
   <div class="related_post">
+    {% if related %}
+    {% for related in related %}
     <div>
-        <img src="me.png">
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
+        <img src="{{related.Article_pic.url}}">
+        <span style="padding: 20px; font-weight:bold;font-size:18px;">{{related.headlines}}</span>
         <br/>
-        <span>name Date</span>
+        <span>{{related.pub_date|naturalday|title}}</span>
     </div>
+    {% endfor %}
+    {% else %}
+    <p>No related Article found yet</p>
+    {% endif %}
 
-    <div>
-        <img src="me.png">
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-        <br/>
-        <span>name Date</span>
-    </div>
-
-    <div>
-        <img src="me.png">
-        <span style="padding: 20px; font-weight:bold;font-size:18px;">Title</span>
-        <br/>
-        <span>name Date</span>
-    </div>
+    
   </div>
    
 
