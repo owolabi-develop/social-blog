@@ -55,11 +55,11 @@
 
         <ul>
             <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
-            <li><a href="#">Latest</a></li>
-            <li><a href="#">Sport</a></li>
-            <li><a href="#">Politic</a></li>
-            <li><a href="#">Event</a></li>
-            <li><a href="#">Acount</a></li>
+            {% if category %}
+            {% for categorys in category %}
+            <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
+            {% endfor %}
+            {% endif %}
            
         </ul>
     </div>

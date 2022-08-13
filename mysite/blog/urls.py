@@ -23,6 +23,6 @@ urlpatterns = [
     path('Setting/AccountManagement/<email>/',views.accountManagement,name='aaccount-Management'),
     path('Setting/ArticleManagement/<email>/',views.ArticleManagement,name='Article-Management'),
     path('Setting/ArticleManagement/ArticleEdit/<int:article_id>/',views.ArticleEdit,name='Article-Edit'),
-   
-
+    path('Delete/<int:article_id>/',views.ArticleDelete,name='delete-article'),
+    path("<title>/",views.CategoryPage,name='article-category')
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

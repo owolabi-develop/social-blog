@@ -98,6 +98,9 @@ class Article(models.Model):
     def __str__(self) -> str:
         return self.headlines
     
+    class Meta:
+       ordering = ['pub_date']
+    
 
     def get_absolute_url(self):
         return reverse('blog:details', kwargs={'pk' : self.pk})

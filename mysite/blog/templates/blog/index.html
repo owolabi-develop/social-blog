@@ -34,10 +34,12 @@
 
         <ul>
             <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
-            <li><a href="#">Latest</a></li>
-            <li><a href="#">Sport</a></li>
-            <li><a href="#">Politic</a></li>
-            <li><a href="#">Event</a></li>
+            {% if category %}
+            {% for categorys in category %}
+            <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
+            {% endfor %}
+            {% endif %}
+            
             {% if user.is_authenticated %}
             <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
             {% else %}
@@ -162,14 +164,17 @@
 <!--Article-->
 <div class="pagination-wrapper">
     <div class="pagination">
-        <a href="#">&laquo;</a>
-        <a href="#">1</a>
-        <a href="#" class="active">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#">6</a>
-        <a href="#">&raquo;</a>
+        {% if Article.has_previous  %}
+        <a href="?page={{ Article.previous_page_number}}">&nbsp;&laquo;</a>
+        {% endif %}
+        {% for range in Article.paginator.page_range %}
+        <a href="?page={{range}}">{{range}}</a>
+        {% endfor %}
+        
+        {% if Article.has_next  %}
+        <a href="?page={{ Article.next_page_number}}">&nbsp;&raquo;</a>
+        <a href="?page={{ Article.paginator.num_pages }}">last&nbsp; &raquo;</a>
+        {% endif %}
       </div>
 
 </div>

@@ -35,10 +35,11 @@
 
         <ul>
             <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
-            <li><a href="#">Latest</a></li>
-            <li><a href="#">Sport</a></li>
-            <li><a href="#">Politic</a></li>
-            <li><a href="#">Event</a></li>
+            {% if category %}
+            {% for categorys in category %}
+            <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
+            {% endfor %}
+            {% endif %}
             {% if not user.is_authenticated %}
             <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
             {% endif %}
@@ -76,7 +77,16 @@
        {% endfor %}&nbsp;<input type="submit" value="Post Comment"></p>
     </form>
     {% else %}
-    <p>No comment Yet</p>
+    <form action="{% url 'blog:details' blog.headlines %}" method="post">
+        {% csrf_token %}
+        <br/>
+        <p class="p1"><img src="{{user.profile.Profile_pic.url}}">
+            {{form.none_field_errors}}
+       {% for field in form %}
+       {{field}}
+       {{firld.errors}}
+       {% endfor %}&nbsp;<input type="submit" value="Post Comment"></p>
+    </form>
     {% endif %}
     <br/>
     <br/>
