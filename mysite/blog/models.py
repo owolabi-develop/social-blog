@@ -89,7 +89,7 @@ class Article_Category(models.Model):
 class Article(models.Model):
     headlines = models.CharField(max_length=255)
     body = models.TextField(max_length=255)
-    Article_pic = models.FileField("Article Pic",upload_to='Articles/',validators=[FileExtensionValidator(allowed_extensions=['jpg','png'],message='Please Upload The Fellowing Image Format jpg ord png')])
+    Article_pic = models.FileField("Article Pic",upload_to='Articles/',validators=[FileExtensionValidator(allowed_extensions=['jpg','png'],message='Please Upload The Fellowing Image Format jpg ord png')],serialize=True)
     Category = models.ForeignKey(Article_Category,on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
     pub_date = models.DateTimeField(auto_now_add=True)

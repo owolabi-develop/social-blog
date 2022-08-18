@@ -7,6 +7,7 @@ from django.contrib.auth import views as auth_view
 app_name ='blog'
 urlpatterns = [
     path("",views.index,name="index"),
+    path("Search/",views.searchArticle,name='search'),
     path("login/",views.UserLogin,name="Login"),
     path("SignUp/",views.UserSignUp,name="SignUp"),
     re_path('^Email-Activation/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z_\-]+)$',
@@ -24,5 +25,7 @@ urlpatterns = [
     path('Setting/ArticleManagement/<email>/',views.ArticleManagement,name='Article-Management'),
     path('Setting/ArticleManagement/ArticleEdit/<int:article_id>/',views.ArticleEdit,name='Article-Edit'),
     path('Delete/<int:article_id>/',views.ArticleDelete,name='delete-article'),
-    path("<title>/",views.CategoryPage,name='article-category')
+    path("<title>/",views.CategoryPage,name='article-category'),
+    
+    
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

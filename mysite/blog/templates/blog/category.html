@@ -9,26 +9,10 @@
     <title>Owolabi Blog</title>
     <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <!--------head menu-->
-    <div class="row">
-        <div class="col head-search">
-            <form action="" method="get">
-                <input type="search" placeholder="Search">
-            </form>
-        </div>
-    </div>
-    <!--------head menu-->
-
-    <!---banner -->
- <div class="row">
-        <div class="col logo">logo</div>
-        <div class="col banner">banner</div>
-    </div>
-     <!---banner -->
-
-<!--main menu-->
+    <!--main menu-->
 <div class="row">
     <div class="col menubar">
 
@@ -45,10 +29,16 @@
             {% else %}
             <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
             {% endif %}
-            
-            
         </ul>
     </div>
+    <!---search-->
+    <div class="col head-search">
+        <form>
+            {% csrf_token %}
+            <input type="search" name="query"  placeholder="Search Article....." id="query">
+        </form>
+    </div>
+    <!---search-->
 </div>
 <!--main menu-->
 
@@ -96,7 +86,7 @@
            {{categorylists.body}}
             <br>
             <br>
-            <hr class="ArtH">
+          
             <span>Comments {{categorylists.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>{{categorylists.pub_date|naturaltime|title}}</span>
             </span>
     </div>
@@ -123,8 +113,7 @@
             <br/>
             <p>Posted: &nbsp;&nbsp;{{recent3.pub_date|naturaltime|title}}</p>
         </div>
-        <hr class="recent-hr">
-        
+     
         {% endfor %}
         {% else %}
         <p>No article publish yet</p>

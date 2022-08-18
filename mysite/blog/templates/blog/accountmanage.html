@@ -11,25 +11,7 @@
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
 </head>
 <body>
-    <!---head menu-->
-    <div class="row">
-        <!---head menu-->
-        <div class="col head-search">
-            <form action="" method="get">
-                <input type="search" placeholder="Search">
-            </form>
-        </div>
-    </div>
-    <!--head menu-->
-
-    <!---banner -->
- <div class="row">
-        <div class="col logo">logo</div>
-        <div class="col banner">banner</div>
-    </div>
-     <!---banner -->
-
-<!--main menu-->
+   <!--main menu-->
 <div class="row">
     <div class="col menubar">
 
@@ -40,9 +22,20 @@
             <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
             {% endfor %}
             {% endif %}
+            
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
+            {% else %}
+            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+            {% endif %}
         </ul>
     </div>
+    <!---search-->
+    <div class="col head-search">
+    </div>
+    <!---search-->
 </div>
+<!--main menu-->
 {% block profile-wrapper %}
     {% if messages %}
     <ul class="messages">

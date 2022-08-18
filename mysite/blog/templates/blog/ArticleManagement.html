@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
     <script src="{% static 'blog/main.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
     <div class="article-form-container">
@@ -30,26 +31,7 @@
         </form>
     </div>
     <div class="overlay"></div>
-    <!---head menu-->
-    <div class="row">
-        
-        <!---head menu-->
-        <div class="col head-search">
-            <form action="" method="get">
-                <input type="search" placeholder="Search">
-            </form>
-        </div>
-    </div>
-    <!--head menu-->
-
-    <!---banner -->
- <div class="row">
-        <div class="col logo">logo</div>
-        <div class="col banner">banner</div>
-    </div>
-     <!---banner -->
-
-<!--main menu-->
+      <!--main menu-->
 <div class="row">
     <div class="col menubar">
 
@@ -60,9 +42,18 @@
             <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
             {% endfor %}
             {% endif %}
-           
+            
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
+            {% else %}
+            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+            {% endif %}
         </ul>
     </div>
+    <!---search-->
+    <div class="col head-search">
+    </div>
+    <!---search-->
 </div>
 <!--main menu-->
 
@@ -88,14 +79,15 @@
         <!--adh-->
         <div class="article-adh">
         <button class="add-Article" onclick="displayoverlay()">Add Article <i class="fa-solid fa-plus"></i></button> <form action="" method="get">
-            <input type="search" placeholder="Search Article">
+            <input type="search" name="query" id="query" placeholder="Search Article">
         </form>
     </div>
     <!--adh-->
 
     <!--Article table-->
     <div class="Article-table">
-        <table>
+        <table id="result_data">
+            <thead>
             <tr>
                 <th>#</th>
                 <th>Media</th>
@@ -106,9 +98,12 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
+            <thead>
+            <tbody>
             {% if article %}
             {% for article in article  %}
             <tr>
+               
                 <td><input type="checkbox"></td>
                 <td><img src="{{article.Article_pic.url}}" alt="Article" style="width:60px;height:60px; border-radiu:10px;"></td>
                 <td>{{article.headlines}}</td>
@@ -122,6 +117,7 @@
             {% else %}
             <p>You have'nt publish any article</p>
             {% endif %}
+        </tbody>
         </table>
     </div>
     <!--Article table-->
@@ -178,6 +174,53 @@
 
 </div>
 <!--footer-->
+<script>
+var csrf = document.getElementsByName('csrfmiddlewaretoken')[0].values
+$(document).ready(function(){
+$("#query").keyup(function(e){
+    var table = $("#result_data")
+ var query = $(this).val()
+ $.ajax({
+    type:"GET",
+    url:"{% url 'blog:search' %}",
+    dataType:"json",
+    data:{'query':query,'csrfmiddlewaretoken':csrf},
+    success:function(response){
+        var result = response['data']
+        var txt = "";
+        if(Array.isArray(result)){
+            result.forEach(element => {
+                txt +=`
+                <tr>
+               
+               <td><input type="checkbox"></td>
+               <td><img src="${element.Article_pic}" alt="Article" style="width:60px;height:60px; border-radiu:10px;"></td>
+               <td>${element.headlines}</td>
+               <td>${element.body}</td>
+               <td>${element.user}</td>
+               <td>${element.pub_date}</td>
+               <td><a href="/Setting/ArticleManagement/ArticleEdit/${element.id}"><i class="fa-solid fa-pencil"></i></a></td>
+               <td><a href="/Delete/${element.id} "><i class="fa-solid fa-trash-can"></i></a></td>
+           </tr>
 
+                `
+                
+            });
+
+        }else{
+            txt= `
+                        <p align="center">${result}</p>
+                        `  
+        }
+        table.html(txt)
+
+    }, //success
+
+ });
+
+
+});
+});
+</script>
 </body>
 </html>

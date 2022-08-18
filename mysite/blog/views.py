@@ -1,9 +1,12 @@
 
+from multiprocessing import reduction
 from django.utils import timezone
 from datetime import datetime
+from django.core import serializers
+from django.db.models.query_utils import Q
 from django.core.paginator import Paginator
 from django.contrib.auth import update_session_auth_hash
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.shortcuts import render
 from django.conf import settings
 from django.contrib import messages
@@ -36,11 +39,36 @@ post_save.connect(post_save_Profile, sender=settings.AUTH_USER_MODEL)
         
 
 def index(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        query = request.GET.get('query',None)
+        Articledata = Article.objects.filter(Q(headlines__icontains=query)|Q(body__icontains=query))
+       
+        if len(query) > 0 and len(Articledata) > 0:
+            data = []
+           
+            for query in Articledata:
+                item = {
+                    'id':query.id,
+                    'headlines':query.headlines,
+                    'body':query.body,
+                    'Article_pic':query.Article_pic.url,
+                    'pub_date':query.pub_date,
+                    'author':query.author_id,
+                }
+                data.append(item)
+            result = data
+            category = Article_Category.objects.all()
+        else:
+            result = "No Article Found"
+        return JsonResponse({'data':result})
+                
+
     try:
         category = Article_Category.objects.all()
         recentArt = Article.objects.earliest('pub_date')
         allArtticle  = Article.objects.all()
-        paginator = Paginator(allArtticle,2)
+        paginator = Paginator(allArtticle,5)
         page_number = request.GET.get('page')
         allArt = paginator.get_page(page_number)
         recentArt2 = Article.objects.order_by('headlines')[:2]
@@ -236,9 +264,36 @@ def CategoryPage(request,title):
     categorylistpigination = Article.objects.filter(Category__Title=categorylist1)
     category = Article_Category.objects.all()
     recent3 = Article.objects.filter(Category__Title=categorylist1).order_by('-pub_date')[:5]
-    paginator = Paginator(categorylistpigination,2)
+    paginator = Paginator(categorylistpigination,5)
     page_number = request.GET.get('page')
     categorylist = paginator.get_page(page_number)
     
     
     return render(request,'blog/category.html',{"categorylist":categorylist,'category':category,'recent3':recent3,})
+
+def searchArticle(request):
+    user = get_object_or_404(get_user_model(),email=request.user)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        ArticleQuery = request.GET.get('query',None)
+        Articledata = user.article_set.filter(Q(headlines__icontains=ArticleQuery)|Q(body__icontains=ArticleQuery)).all()
+        if len(ArticleQuery) > 0 and len(Articledata) > 0:
+            data = []
+            for query in Articledata:
+                item = {
+                    'id':query.id,
+                    'headlines':query.headlines,
+                    'body':query.body,
+                    'pub_date':query.pub_date,
+                    'Article_pic':query.Article_pic.url,
+                    'user':user.username,
+                }
+                data.append(item)
+            result = data
+        else:
+            result = "No item Found"
+        return JsonResponse({'data':result})
+    
+    return render(request,'blog/settings.html',{})
+
+

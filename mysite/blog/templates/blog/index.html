@@ -7,26 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owolabi Blog</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/18de66c05e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'blog/main.css' %}">
+   
 </head>
+<script>
+
+</script>
 <body>
     <!--------head menu-->
     <div class="row">
-        <div class="col head-search">
-            <form action="" method="get">
-                <input type="search" placeholder="Search">
-            </form>
-        </div>
+       
     </div>
     <!--------head menu-->
 
-    <!---banner -->
- <div class="row">
-        <div class="col logo">logo</div>
-        <div class="col banner">banner</div>
-    </div>
-     <!---banner -->
 
 <!--main menu-->
 <div class="row">
@@ -45,10 +40,16 @@
             {% else %}
             <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
             {% endif %}
-            
-            
         </ul>
     </div>
+    <!---search-->
+    <div class="col head-search">
+        <form>
+            {% csrf_token %}
+            <input type="search" name="query"  placeholder="Search Article....." id="query">
+        </form>
+    </div>
+    <!---search-->
 </div>
 <!--main menu-->
 
@@ -99,7 +100,6 @@
     <!--headline in row-->
     <!--latest-->
     <p style="padding-left: 30px;">Latest Article</p>
-    <hr class="ArtHlatest">
     {% if Article %}
     {% for earliest in Article %}
     <div class="col latest">
@@ -114,7 +114,7 @@
            {{earliest.body}}
             <br>
             <br>
-            <hr class="ArtH">
+           
             <span>Comments {{earliest.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>{{earliest.pub_date|naturaltime|title}}</span>
             </span>
             
@@ -143,7 +143,7 @@
             <br/>
             <p>Posted: &nbsp;&nbsp;{{recentArt3.pub_date|naturaltime|title}}</p>
         </div>
-        <hr class="recent-hr">
+       
         
         {% endfor %}
         {% else %}
@@ -223,6 +223,74 @@
 
 </div>
 <!--footer-->
+<script>
+var csrf = document.getElementsByName('csrfmiddlewaretoken')[0].values
+var latest = $(".latest")
+var latest2 = document.querySelector('.latest')
+$(document).ready(function(){
+    $("#query").keyup(function(e){
+        latest.empty()
+      
+        latest.toggleClass('latests')
+        e.preventDefault()
+        var query = $(this).val()
+        $.ajax({
+            type:"GET",
+            url:"{% url 'blog:index' %}",
+            dataType:"json",
+            data:{'csrfmiddlewaretoken':csrf,'query':query},
+            success:function(response){
+                var url ="/Details/"
+                var result = response['data'] 
+                txt= "";
+                if(Array.isArray(result)){
+                    for (let index = 0; index < result.length; index++) {
+                        const Article = result[index];
+                        txt += `<div class="ajaxArticle">
+                        <span><img src="${Article.Article_pic}" width="100" height="120" id="img">
+            <br>
+           <span style="padding: 20px; font-weight:bold;font-size:18px;"> <a href="/Details/${Article.headlines}">${Article.headlines}</a></span>
+        <br>
+        <br>
+        <span><img src="{{earliest.author.profile.Profile_pic.url}}" width="100" height="140" id="Auth-profile"></span>
+        <br>
+        <br>
+           ${Article.body}
+            <br/>
+            <br/>
+           
+            <span>Comments {{earliest.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>${Article.pub_date}|naturalday</span>
+            </span>
+            <br/>
+            <p></p>
+            </div>
+                       
+                        `  
+                    };
+                }else{
+                    txt= `
+                        <p align="center">${result}</p>
+                        `  
+                }
+                latest2.innerHTML=txt;
 
+            },
+            error:function(response){
+                alert("failed")
+
+            }
+        });
+
+
+
+
+
+
+        
+    });
+});
+
+
+</script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 function displayoverlay(){
     var article_form_container = document.querySelector(".article-form-container")
     var overlay = document.querySelector(".overlay")
@@ -25,8 +26,4 @@ function displayoverlay(){
         
 
       }
-    
-
-    
-
 }
