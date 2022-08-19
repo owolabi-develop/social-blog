@@ -16,41 +16,29 @@
 
 </script>
 <body>
-    <!--------head menu-->
-    <div class="row">
-       
-    </div>
-    <!--------head menu-->
-
-
 <!--main menu-->
-<div class="row">
-    <div class="col menubar">
-
-        <ul>
-            <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
+    <div class="menubar">
+            <a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a>
             {% if category %}
             {% for categorys in category %}
-            <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
+            <a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a>
             {% endfor %}
             {% endif %}
             
             {% if user.is_authenticated %}
-            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
+            <a href="{% url 'blog:Profile' user.email %}">Acount</a>
             {% else %}
-            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
+            <a href="{% url 'blog:SignUp' %}">Sign Up</a>
             {% endif %}
-        </ul>
+
+            <li>
+                <form>
+                    {% csrf_token %}
+                    <input type="search" name="query"  placeholder="Search Article....." id="query">
+                </form>
+            </li>
     </div>
-    <!---search-->
-    <div class="col head-search">
-        <form>
-            {% csrf_token %}
-            <input type="search" name="query"  placeholder="Search Article....." id="query">
-        </form>
-    </div>
-    <!---search-->
-</div>
+   
 <!--main menu-->
 
 
@@ -111,13 +99,10 @@
         <span><img src="{{earliest.author.profile.Profile_pic.url}}" width="100" height="140" id="Auth-profile"></span>
         <br>
         <br>
-           {{earliest.body}}
-            <br>
-            <br>
-           
             <span>Comments {{earliest.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>{{earliest.pub_date|naturaltime|title}}</span>
             </span>
-            
+            <br>
+            <br>
        
     </div>
     {% endfor %}
@@ -132,8 +117,8 @@
 
     <!--recentpost-->
     <div class="col recentpost">
-        <!---post wrapper-->
-        <div class="post-wrpper">
+     
+       
         <p>Recent Post</p>
        {% if recentArt3 %}
         {% for recentArt3 in recentArt3 %}
@@ -150,8 +135,6 @@
         <p>No article publish yet</p>
         {% endif %}
        
-    </div>
-  <!---post wrapper-->
     
     </div>
     <!--recentpost-->
@@ -242,6 +225,7 @@ $(document).ready(function(){
             success:function(response){
                 var url ="/Details/"
                 var result = response['data'] 
+                console.log(result)
                 txt= "";
                 if(Array.isArray(result)){
                     for (let index = 0; index < result.length; index++) {
@@ -252,18 +236,16 @@ $(document).ready(function(){
            <span style="padding: 20px; font-weight:bold;font-size:18px;"> <a href="/Details/${Article.headlines}">${Article.headlines}</a></span>
         <br>
         <br>
-        <span><img src="{{earliest.author.profile.Profile_pic.url}}" width="100" height="140" id="Auth-profile"></span>
+        <span><img src="" width="100" height="140" id="Auth-profile"></span>
         <br>
         <br>
-           ${Article.body}
-            <br/>
-            <br/>
-           
-            <span>Comments {{earliest.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>${Article.pub_date}|naturalday</span>
+            <span> Posted: &nbsp;&nbsp;<span>${Article.pub_date}</span>
             </span>
             <br/>
             <p></p>
             </div>
+            <br>
+        <br>
                        
                         `  
                     };

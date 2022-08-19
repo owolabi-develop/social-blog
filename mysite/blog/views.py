@@ -43,6 +43,7 @@ def index(request):
     if is_ajax:
         query = request.GET.get('query',None)
         Articledata = Article.objects.filter(Q(headlines__icontains=query)|Q(body__icontains=query))
+        user = User.objects.filter(article__headlines__icontains=Articledata)
        
         if len(query) > 0 and len(Articledata) > 0:
             data = []
@@ -261,6 +262,25 @@ def ArticleManagement(request,email):
 
 def CategoryPage(request,title):
     categorylist1 = get_object_or_404(Article_Category,Title=title)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        ArticleQuery = request.GET.get('query',None)
+        Articledata = categorylist1.article_set.filter(Q(headlines__icontains=ArticleQuery)|Q(body__icontains=ArticleQuery)).all()
+        if len(ArticleQuery) > 0 and len(Articledata) > 0:
+            data = []
+            for query in Articledata:
+                item = {
+                    'id':query.id,
+                    'headlines':query.headlines,
+                    'body':query.body,
+                    'pub_date':query.pub_date,
+                    'Article_pic':query.Article_pic.url,
+                }
+                data.append(item)
+            result = data
+        else:
+            result = "No item Found"
+        return JsonResponse({'data':result})
     categorylistpigination = Article.objects.filter(Category__Title=categorylist1)
     category = Article_Category.objects.all()
     recent3 = Article.objects.filter(Category__Title=categorylist1).order_by('-pub_date')[:5]
@@ -269,7 +289,8 @@ def CategoryPage(request,title):
     categorylist = paginator.get_page(page_number)
     
     
-    return render(request,'blog/category.html',{"categorylist":categorylist,'category':category,'recent3':recent3,})
+    
+    return render(request,'blog/category.html',{"categorylist":categorylist,'category':category,'recent3':recent3,'categorylist1':categorylist1})
 
 def searchArticle(request):
     user = get_object_or_404(get_user_model(),email=request.user)

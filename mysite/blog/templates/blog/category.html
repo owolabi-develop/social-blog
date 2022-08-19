@@ -13,33 +13,29 @@
 </head>
 <body>
     <!--main menu-->
-<div class="row">
-    <div class="col menubar">
+<!--main menu-->
+<div class="menubar">
+    <a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a>
+    {% if category %}
+    {% for categorys in category %}
+    <a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a>
+    {% endfor %}
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+    <a href="{% url 'blog:Profile' user.email %}">Acount</a>
+    {% else %}
+    <a href="{% url 'blog:SignUp' %}">Sign Up</a>
+    {% endif %}
 
-        <ul>
-            <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
-            {% if category %}
-            {% for categorys in category %}
-            <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
-            {% endfor %}
-            {% endif %}
-            
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
-            {% else %}
-            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
-            {% endif %}
-        </ul>
-    </div>
-    <!---search-->
-    <div class="col head-search">
+    <li>
         <form>
             {% csrf_token %}
             <input type="search" name="query"  placeholder="Search Article....." id="query">
         </form>
-    </div>
-    <!---search-->
+    </li>
 </div>
+
 <!--main menu-->
 
 
@@ -71,7 +67,7 @@
     <!--headline in row-->
     <!--latest-->
     <p style="padding-left: 30px;">Latest Article</p>
-    <hr class="ArtHlatest">
+    
     {% if categorylist %}
     {% for categorylists in categorylist %}
     <div class="col latest">
@@ -192,6 +188,75 @@
 
 </div>
 <!--footer-->
-
+<script>
+    var csrf = document.getElementsByName('csrfmiddlewaretoken')[0].values
+    var latest = $(".latest")
+    var latest2 = document.querySelector('.latest')
+    $(document).ready(function(){
+        $("#query").keyup(function(e){
+            latest.empty()
+          
+            latest.toggleClass('latests')
+            e.preventDefault()
+            var query = $(this).val()
+            $.ajax({
+                type:"GET",
+                url:"{% url 'blog:article-category' categorylist1.Title %}",
+                dataType:"json",
+                data:{'csrfmiddlewaretoken':csrf,'query':query},
+                success:function(response){
+                    var url ="/Details/"
+                    var result = response['data'] 
+                    console.log(result)
+                    txt= "";
+                    if(Array.isArray(result)){
+                        for (let index = 0; index < result.length; index++) {
+                            const Article = result[index];
+                            txt += `<div class="ajaxArticle">
+                        <span><img src="${Article.Article_pic}" width="100" height="120" id="img">
+            <br>
+           <span style="padding: 20px; font-weight:bold;font-size:18px;"> <a href="/Details/${Article.headlines}">${Article.headlines}</a></span>
+        <br>
+        <br>
+        <span><img src="{{earliest.author.profile.Profile_pic.url}}" width="100" height="140" id="Auth-profile"></span>
+        <br>
+        <br>
+           ${Article.body}
+            <br/>
+            <br/>
+           
+            <span>Comments {{earliest.comment_set.all.count}}</span> | Posted: &nbsp;&nbsp;<span>${Article.pub_date}</span>
+            </span>
+            <br/>
+            <p></p>
+            </div>
+                       
+                        `  
+                        };
+                    }else{
+                        txt= `
+                            <p align="center">${result}</p>
+                            `  
+                    }
+                    latest2.innerHTML=txt;
+    
+                },
+                error:function(response){
+                    alert("failed")
+    
+                }
+            });
+    
+    
+    
+    
+    
+    
+            
+        });
+    });
+    
+    
+    </script>
 </body>
 </html>

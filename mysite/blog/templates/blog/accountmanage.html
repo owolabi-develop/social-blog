@@ -12,29 +12,28 @@
 </head>
 <body>
    <!--main menu-->
-<div class="row">
-    <div class="col menubar">
+   <div class="menubar">
+    <a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a>
+    {% if category %}
+    {% for categorys in category %}
+    <a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a>
+    {% endfor %}
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+    <a href="{% url 'blog:Profile' user.email %}">Acount</a>
+    {% else %}
+    <a href="{% url 'blog:SignUp' %}">Sign Up</a>
+    {% endif %}
 
-        <ul>
-            <li><a href="{% url 'blog:index' %}"><i class="fa-solid fa-house">&nbsp;</i>Home</a></li>
-            {% if category %}
-            {% for categorys in category %}
-            <li><a href="{% url 'blog:article-category' categorys.Title %}">{{categorys.Title|title}}</a></li>
-            {% endfor %}
-            {% endif %}
-            
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'blog:Profile' user.email %}">Acount</a></li>
-            {% else %}
-            <li><a href="{% url 'blog:SignUp' %}">Sign Up</a></li>
-            {% endif %}
-        </ul>
-    </div>
-    <!---search-->
-    <div class="col head-search">
-    </div>
-    <!---search-->
+    <li>
+        <form>
+            {% csrf_token %}
+            <input type="search" name="query"  placeholder="Search Article....." id="query">
+        </form>
+    </li>
 </div>
+
 <!--main menu-->
 {% block profile-wrapper %}
     {% if messages %}
@@ -57,10 +56,10 @@
         <p style="margin-left:70px;">{{user.username|title}}</p>
 <hr class="ArtHlatest">
 <ul>
-    <li><i class="fa-solid fa-user">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Profile' user.email %}">Public Profile</a></li>
-    <li><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:aaccount-Management' user.email %}">Personal Information</a></li>
-    <li><i class="fa-solid fa-newspaper">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Article-Management' user.email %}">Article Management</a></li>
-    <li><i class="fa-solid fa-bars"></i>&nbsp;&nbsp;&nbsp;<a href="">Account Management</a></li>
+    <li><i class="fa-solid fa-user">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Profile' user.email %}">Profile</a></li>
+    <li><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:aaccount-Management' user.email %}">Infor</a></li>
+    <li><i class="fa-solid fa-newspaper">&nbsp;&nbsp;&nbsp;&nbsp;</i><a href="{% url 'blog:Article-Management' user.email %}">Article</a></li>
+    
     <li><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'blog:logout' %}">Logout</a></li>
 </ul>
     </div>
